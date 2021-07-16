@@ -7,6 +7,8 @@ import com.xuandq.rate.RatingDialogListener
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -29,7 +31,9 @@ class MainActivity : AppCompatActivity() {
         ProxRateDialog.init(this, config)
 
         txt.setOnClickListener {
-            ProxRateDialog.showIfNeed(supportFragmentManager)
+            ProxRateDialog.showAlways(supportFragmentManager)
+//            ProxRateDialog.showIfNeed(supportFragmentManager)
         }
     }
+
 }

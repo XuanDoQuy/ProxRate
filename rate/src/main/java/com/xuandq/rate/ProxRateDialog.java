@@ -54,6 +54,10 @@ public class ProxRateDialog extends DialogFragment {
         }
     }
 
+    public static boolean isRated(){
+        return sp.getBoolean("isRated", false);
+    }
+
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
@@ -86,12 +90,12 @@ public class ProxRateDialog extends DialogFragment {
                 alertDialog.setButton(androidx.appcompat.app.AlertDialog.BUTTON_NEUTRAL, "OK",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
+                                mConfig.listener.onSubmitButtonClicked((int) ratingBar.getRating(), edComment.getText().toString());
                                 dialog.dismiss();
                             }
                         });
                 this.dismiss();
                 alertDialog.show();
-                mConfig.listener.onSubmitButtonClicked((int) ratingBar.getRating(), edComment.getText().toString());
             }
 
         });
@@ -106,7 +110,6 @@ public class ProxRateDialog extends DialogFragment {
             view.findViewById(R.id.submit).setVisibility(View.VISIBLE);
             if (v>0) tvStar.setText(starDes.get((int) v - 1));
             edComment.setVisibility(v < 4 ? View.VISIBLE : View.GONE);
-            mConfig.listener.onChangeStar((int) v);
             if (v>=4){
                 sp.edit().putBoolean("isRated", true).apply();
                 String appPackageName = getActivity().getPackageName();
@@ -117,6 +120,7 @@ public class ProxRateDialog extends DialogFragment {
                 }
                 dismiss();
             }
+            mConfig.listener.onChangeStar((int) v);
         });
         builder.setView(view);
         Dialog d = builder.create();
